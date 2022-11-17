@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+    php:
+        container_name: svmft_php
+        volumes:
+            - '..:/opt/app'
+        build:
+            context: ../
+            dockerfile: docker/services/php/php.Dockerfile
+
+    nginx:
+        container_name: svmft_nginx
+        build:
+            context: ../
+            dockerfile: docker/services/nginx/nginx.Dockerfile
+        volumes:
+            - '..:/opt/app'
+        ports:
+            - "8129:80"
+
+    db:
+        container_name: svmft_db
+        hostname: "schema-validation-meets-functional-testing"
+        ports:
+            - 3036:3306
