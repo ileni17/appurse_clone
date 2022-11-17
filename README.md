@@ -1,6 +1,6 @@
-# appurse_clone
+# Appurse clone
 
-Appurse clone POC
+Appurse clone POC.
 
 ## Setup
 
