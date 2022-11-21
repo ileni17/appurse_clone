@@ -36,7 +36,7 @@ class AppCrudController extends AbstractCrudController
         yield TextField::new('name', 'Name');
         yield TextEditorField::new('description', 'Description');
         yield NumberField::new('score', 'Score');
-        yield UrlField::new('app_url', 'App');
-        yield UrlField::new('icon_url', 'Icon');
+        yield UrlField::new('url', 'App');
+        yield UrlField::new('icon', 'Icon');
     }
 }
