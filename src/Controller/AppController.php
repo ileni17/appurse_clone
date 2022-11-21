@@ -20,16 +20,10 @@ class AppController extends AbstractController
      * @throws GooglePlayException
      */
     #[Route('/index', name: 'app_index')]
-    public function index(AppRepository $appRepository, GooglePlayScraperService $googlePlayScraperService): Response
+    public function index(GooglePlayScraperService $googlePlayScraperService): Response
     {
-        $apps = $appRepository->findBy([], [], GooglePlayScraperService::DEFAULT_LIMIT);
-
-        if (!$apps) {
-            $apps = $googlePlayScraperService->returnTopApps();
-        }
-
         return $this->render('app/index.html.twig', [
-            'apps' => $apps
+            'apps' => $googlePlayScraperService->returnTopApps(),
         ]);
     }
 
