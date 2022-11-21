@@ -27,8 +27,8 @@ class GooglePlayScraperService
             $app->setName($googleApp->getName());
             $app->setDescription($googleApp->getDescription());
             $app->setIdentificator($googleApp->getId());
-            $app->setAppUrl($googleApp->getUrl());
-            $app->setIconUrl((string)$googleApp->getIcon());
+            $app->setUrl($googleApp->getUrl());
+            $app->setIcon((string)$googleApp->getIcon());
             $app->setScore($googleApp->getScore());
 
             /** Get app category */
