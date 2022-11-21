@@ -28,11 +28,11 @@ class App
     #[ORM\Column]
     private ?float $score = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $app_url = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $icon_url = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $icon = null;
 
     #[ORM\ManyToOne(inversedBy: 'apps')]
     #[ORM\JoinColumn(nullable: false)]
@@ -91,26 +91,26 @@ class App
         return $this;
     }
 
-    public function getAppUrl(): ?string
+    public function getUrl(): ?string
     {
-        return $this->app_url;
+        return $this->url;
     }
 
-    public function setAppUrl(string $app_url): self
+    public function setUrl(string $url): self
     {
-        $this->app_url = $app_url;
+        $this->url = $url;
 
         return $this;
     }
 
-    public function getIconUrl(): ?string
+    public function getIcon(): ?string
     {
-        return $this->icon_url;
+        return $this->icon;
     }
 
-    public function setIconUrl(string $icon_url): self
+    public function setIcon(string $icon): self
     {
-        $this->icon_url = $icon_url;
+        $this->icon = $icon;
 
         return $this;
     }

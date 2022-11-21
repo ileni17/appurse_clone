@@ -7,12 +7,16 @@ namespace App\DataFixtures;
 use App\Entity\App;
 use App\Entity\AppCategory;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Nelexa\GPlay\Exception\GooglePlayException;
 use Nelexa\GPlay\GPlayApps;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @throws GooglePlayException
+     */
     public function load(ObjectManager $manager): void
     {
         /** Init service */
@@ -28,8 +32,8 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $app->setName($googleApp->getName());
             $app->setDescription($googleApp->getDescription());
             $app->setIdentificator($googleApp->getId());
-            $app->setAppUrl($googleApp->getUrl());
-            $app->setIconUrl((string)$googleApp->getIcon());
+            $app->setUrl($googleApp->getUrl());
+            $app->setIcon((string)$googleApp->getIcon());
             $app->setScore($googleApp->getScore());
 
             /** Get app category */

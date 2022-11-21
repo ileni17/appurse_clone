@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Repository\AppRepository;
+use App\Service\GooglePlayScraperService;
 use Nelexa\GPlay\Exception\GooglePlayException;
 use Nelexa\GPlay\GPlayApps;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,18 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AppController extends AbstractController
 {
-    const DEFAULT_LIMIT = 10;
-
     /**
      * @throws GooglePlayException
      */
     #[Route('/index', name: 'app_index')]
-    public function index(): Response
+    public function index(AppRepository $appRepository, GooglePlayScraperService $googlePlayScraperService): Response
     {
-        $service = new GPlayApps('hr_HR', 'hr');
+        $apps = $appRepository->findBy([], [], GooglePlayScraperService::DEFAULT_LIMIT);
+
+        if (!$apps) {
+            $apps = $googlePlayScraperService->returnTopApps();
+        }
 
         return $this->render('app/index.html.twig', [
-            'apps' => $service->getListApps(null, null, self::DEFAULT_LIMIT),
+            'apps' => $apps
         ]);
     }
 
@@ -61,7 +65,7 @@ class AppController extends AbstractController
         $service = new GPlayApps();
 
         return $this->render('app/index.html.twig', [
-            'apps' => $service->getTopSellingPaidApps($category, self::DEFAULT_LIMIT),
+            'apps' => $service->getTopSellingPaidApps($category, GooglePlayScraperService::DEFAULT_LIMIT),
         ]);
     }
 
@@ -74,7 +78,7 @@ class AppController extends AbstractController
         $service = new GPlayApps();
 
         return $this->render('app/index.html.twig', [
-            'apps' => $service->getTopGrossingApps('APPLICATION', self::DEFAULT_LIMIT),
+            'apps' => $service->getTopGrossingApps('APPLICATION', GooglePlayScraperService::DEFAULT_LIMIT),
         ]);
     }
 }
