@@ -32,7 +32,7 @@
                         <td>{{ app.score }}</td>
                         <td>{{ app.description|length > 400 ? app.description|slice(0, 400) ~ '...' : app.description }}</td>
                         <td>
-                            <a href="{{ path('app_detail', {'id': app.identificator}) }}" style="color: black; font-weight: normal">Details</a>
+                            <a href="{{ path('app_detail', {'id': app.identificator is defined ? app.identificator : app.id}) }}" style="color: black; font-weight: normal">Details</a>
                         </td>
                     </tr>
                 {% endfor %}
