@@ -31,13 +31,13 @@ class AppController extends AbstractController
      * @throws GooglePlayException
      */
     #[Route('/detail/{id}', name: 'app_detail')]
-    public function detail(string $id) : JsonResponse
+    public function detail(string $id) : Response
     {
-        $service = new GPlayApps('hr_HR', 'hr');
+        $service = new GPlayApps();
 
-        return $this->json(
-            $service->getAppInfo($id)
-        );
+        return $this->render('app/details.html.twig', [
+            'detail' => $service->getAppInfo($id),
+        ]);
     }
 
     #[Route('/categories', name: 'app_categories')]
