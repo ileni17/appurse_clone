@@ -20,21 +20,36 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dar bg-dark">
-    <a class="navbar-brand text-white" href="{{ path('app_index') }}">AppurseClone®</a>
+    <div class="navbar-brand text-white">AppurseClone®</div>
 
     {% if app.request.get('_route') != 'app_login' %}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link text-white"
-                       href="{{ path('app_index') }}">Top Apps</a>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownGooglePlay" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Google Play
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownGooglePlay">
+                            <a class="dropdown-item"
+                               href="{{ path('gp_index') }}">Top Apps</a>
+                            <a class="dropdown-item"
+                               href="{{ path('gp_top_selling', {'category': 'GAME_ARCADE'}) }}">Top Selling Game Apps</a>
+                            <a class="dropdown-item" href="{{ path('gp_top_grossing') }}">Top Grossing Apps</a>
+                        </div>
+                    </div>
+
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link text-white"
-                       href="{{ path('app_top_selling', {'category': 'GAME_ARCADE'}) }}">Top Selling Game Apps</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="{{ path('app_top_grossing') }}">Top Grossing Apps</a>
+                <li class="nav-item active ml-3">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownAppStore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            App Store
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownAppStore">
+                            <a class="dropdown-item" href="{{ path('as_top_selling') }}">Top Selling Apps</a>
+                        </div>
+                    </div>
+
                 </li>
             </ul>
         </div>
@@ -47,6 +62,10 @@
 </footer>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 {% endblock %}
 </body>
 </html>

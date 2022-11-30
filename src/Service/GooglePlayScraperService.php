@@ -3,6 +3,7 @@
 namespace App\Service;
 
 
+use App\Controller\AppController;
 use App\Entity\App;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelexa\GPlay\Exception\GooglePlayException;
@@ -13,8 +14,6 @@ class GooglePlayScraperService
 {
     #[Required]
     public EntityManagerInterface $entityManager;
-
-    public const DEFAULT_LIMIT = 15;
 
     /**
      * @throws GooglePlayException
@@ -46,14 +45,14 @@ class GooglePlayScraperService
      */
     public function returnTopApps(): array
     {
-        $googlePlayApps = $this->entityManager->getRepository(App::class)->findBy([], [], self::DEFAULT_LIMIT);
+        $googlePlayApps = $this->entityManager->getRepository(App::class)->findBy([], [], AppController::DEFAULT_LIMIT);
 
         if (!$googlePlayApps) {
             /** Init service */
             $service = new GPlayApps();
 
             /** Fetch apps */
-            $googlePlayApps = $service->getListApps(null, null, self::DEFAULT_LIMIT);
+            $googlePlayApps = $service->getListApps(null, null, AppController::DEFAULT_LIMIT);
 
             /** Save apps */
             $this->createTopApps($googlePlayApps, $service);
