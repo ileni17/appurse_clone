@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Repository\AppRepository;
 use App\Service\GooglePlayScraperService;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Nelexa\GPlay\Exception\GooglePlayException;
 use Nelexa\GPlay\GPlayApps;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,7 +84,7 @@ class AppController extends AbstractController
     }
 
     /**
-     * @throws GooglePlayException
+     * @throws GuzzleException
      */
     #[Route('/as-top-selling', name: 'as_top_selling')]
     public function appStoreTopGrossing() : Response
