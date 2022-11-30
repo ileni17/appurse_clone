@@ -38,10 +38,19 @@ class AppController extends AbstractController
     #[Route('/detail/{id}', name: 'app_detail')]
     public function detail(string $id) : Response
     {
-        $service = new GPlayApps();
+        if (is_numeric($id)) {
+            $client = new Client(['base_uri' => 'https://itunes.apple.com/lookup?id=' . $id]);
+            $response = $client->request('GET', '');
+
+            $details = json_decode($response->getBody()->getContents());
+            $details = $details->results[0];
+        } else {
+            $service = new GPlayApps();
+            $details = $service->getAppInfo($id);
+        }
 
         return $this->render('app/details.html.twig', [
-            'detail' => $service->getAppInfo($id),
+            'detail' => $details,
         ]);
     }
 
@@ -93,6 +102,16 @@ class AppController extends AbstractController
         $response = $client->request('GET','');
 
         $data = json_decode($response->getBody()->getContents());
+
+        foreach ($data->feed->results as $app) {
+            $client = new Client(['base_uri' => 'https://itunes.apple.com/lookup?id=' . $app->id]);
+            $response = $client->request('GET', '');
+
+            $details = json_decode($response->getBody()->getContents());
+
+            $app->score = $details->results[0]->averageUserRating;
+            $app->description = $details->results[0]->description;
+        }
 
         return $this->render('app/index.html.twig', [
             'apps' => get_object_vars($data->feed)['results'],

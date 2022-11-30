@@ -1,25 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ detail.name }} Details{% endblock %}
+{% block title %}{{ detail.name ?? detail.trackName }} Details{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-6">
-                <img src="{{ detail.icon }}"
+            <div class="col-4">
+                <img width="160" src="{{ detail.icon ?? detail.artworkUrl100 }}"
                      class="img-fluid img-thumbnail">
             </div>
             <div class="col-6">
-                <p>App: <b>{{ detail.name }}</b></p>
-                <p>Developer: <b>{{ detail.developerName }}</b></p>
-                <p>Category: <b>{{ detail.category.name }}</b></p>
-                <p>Voters: <b>{{ detail.numberVoters }}</b></p>
-                <p>Reviews: <b>{{ detail.numberReviews }}</b></p>
+                <p>App: <b>{{ detail.name ?? detail.trackName }}</b></p>
+                <p>Developer: <b>{{ detail.developerName ?? detail.artistName}}</b></p>
+                <p>Category: <b>{{ detail.category.name ?? detail.primaryGenreName }}</b></p>
+                <p>Voters: <b>{{ detail.numberVoters ?? detail.userRatingCount }}</b></p>
+                <p>Reviews: <b>{{ detail.numberReviews ?? '-' }}</b></p>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <h3>Reviews</h3>
+                {% if detail.reviews is defined %}
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
@@ -29,16 +30,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for review in detail.reviews %}
-                        {% set counter = ( counter | default(0) ) + 1 %}
-                        <tr>
-                            <th scope="row">{{ counter }}</th>
-                            <td>{{ review.userName }}</td>
-                            <td>{{ review.text|length > 400 ? review.text|slice(0, 400) ~ '...' : review.text }}</td>
-                        </tr>
-                    {% endfor %}
+                        {% for review in detail.reviews %}
+                            {% set counter = ( counter | default(0) ) + 1 %}
+                            <tr>
+                                <th scope="row">{{ counter }}</th>
+                                <td>{{ review.userName }}</td>
+                                <td>{{ review.text|length > 400 ? review.text|slice(0, 400) ~ '...' : review.text }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <p>None found</p>
+                {% endif %}
             </div>
         </div>
     </div>
