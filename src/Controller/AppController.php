@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use App\Repository\AppRepository;
 use App\Service\GooglePlayScraperService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -33,7 +32,7 @@ class AppController extends AbstractController
     }
 
     /**
-     * @throws GooglePlayException
+     * @throws GooglePlayException|GuzzleException
      */
     #[Route('/detail/{id}', name: 'app_detail')]
     public function detail(string $id) : Response
