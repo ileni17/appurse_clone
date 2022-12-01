@@ -44,6 +44,22 @@ class AppController extends AbstractController
 
             $details = json_decode($response->getBody()->getContents());
             $details = $details->results[0];
+
+            $client = new Client(['base_uri' => 'https://itunes.apple.com/us/rss/customerreviews/page=1/id=' . $id . '/sortby=mostRecent/json']);
+            $response = $client->request('GET', '');
+
+            $reviews = json_decode($response->getBody()->getContents());
+            $reviews = $reviews->feed->entry;
+
+            $formattedReviews = [];
+            foreach ($reviews as $review) {
+                $formattedReviews[] = [
+                    'userName' => $review->author->name->label,
+                    'text' => $review->content->label
+                ];
+            }
+
+            $details->reviews = $formattedReviews;
         } else {
             $service = new GPlayApps();
             $details = $service->getAppInfo($id);
